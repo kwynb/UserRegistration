@@ -1,8 +1,5 @@
 package com.bragado.userregistration.dto;
 
-
-import org.springframework.format.datetime.DateFormatter;
-
 import java.util.Date;
 
 public class UserDTO {
