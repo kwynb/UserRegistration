@@ -1,5 +1,6 @@
 package com.bragado.userregistration.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -10,18 +11,24 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(name = "firstname")
     private String firstName;
+
     @Column(name = "lastname")
     private String lastName;
+
     @Column(name = "birthday")
+    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     private Date birthDay;
+
     @Column(name = "email")
     private String email;
 
     public User() {}
 
     public User(String firstName, String lastName, Date birthDay, String email) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
