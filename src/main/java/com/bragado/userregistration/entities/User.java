@@ -2,6 +2,7 @@ package com.bragado.userregistration.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -19,7 +20,7 @@ public class User {
     private String lastName;
 
     @Column(name = "birthday")
-    @JsonFormat(pattern="yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING)
     private Date birthDay;
 
     @Column(name = "email")
