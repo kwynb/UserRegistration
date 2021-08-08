@@ -1,5 +1,7 @@
 package com.bragado.userregistration.dto;
 
+import com.bragado.userregistration.entities.User;
+
 import java.util.Date;
 
 public class UserDTO {
@@ -47,5 +49,9 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User toUser() {
+        return new User(firstName,lastName,birthDay,email);
     }
 }

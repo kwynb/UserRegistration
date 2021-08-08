@@ -1,0 +1,22 @@
+#SQL Connection
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/user_data
+    name: user_reg
+    username: root
+    password: ENC(50sp6H9n/6nEhb0NxVXHCe593KfrmSok)
+  jpa:
+    hibernate:
+      use-new-id-generator-mappings: false
+#Password Encryption
+jasypt:
+  encryptor:
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    password: projectPassword
+#Server
+server:
+  error:
+    whitelabel:
+      enabled: false

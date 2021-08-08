@@ -9,8 +9,8 @@ import java.util.List;
 public interface UserService {
 
     User createNewUser(UserDTO userDTO);
-    User updateUser(UserDTO userDTO, Long id) throws SQLException;
-    void deleteUser(Long id) throws SQLException;
-    User getUser(Long id) throws SQLException;
+    User updateUser(UserDTO userDTO, Long id);
+    void deleteUser(Long id);
+    User getUser(Long id);
     List<User> getUsers();
 }
