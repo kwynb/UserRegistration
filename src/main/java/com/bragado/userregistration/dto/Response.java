@@ -1,24 +1,25 @@
 package com.bragado.userregistration.dto;
 
 public class Response {
-    private String error;
+    private String message;
 
-    public Response(String error) {
-        this.error = error;
+    public Response(String message) {
+        this.message = message;
     }
 
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     @Override
     public String toString() {
         return "Response{" +
-                "error='" + error + '\'' +
+                "message='" + message + '\'' +
                 '}';
     }
 }
+
