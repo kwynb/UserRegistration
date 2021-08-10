@@ -1,11 +1,9 @@
 package com.bragado.userregistration.entities;
 
-import com.bragado.userregistration.dto.UserId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
@@ -14,7 +12,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @UserId
     private Long id;
 
     @Column(name = "firstname")

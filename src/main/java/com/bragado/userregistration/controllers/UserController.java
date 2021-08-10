@@ -2,7 +2,6 @@ package com.bragado.userregistration.controllers;
 
 import com.bragado.userregistration.dto.Response;
 import com.bragado.userregistration.dto.UserDTO;
-import com.bragado.userregistration.dto.UserId;
 import com.bragado.userregistration.entities.User;
 import com.bragado.userregistration.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -20,9 +19,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-
-//    @Autowired
-//    public void setUserService(UserService userService) { this.userService = userService; }
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -63,7 +59,7 @@ public class UserController {
 
     @GetMapping(value = "/get/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getUser(@PathVariable(value = "id") @UserId Long id)  {
+    public ResponseEntity<Object> getUser(@PathVariable(value = "id") @Pattern(regexp="^[0-9]*$") Long id)  {
         User user = userService.getUser(id);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
