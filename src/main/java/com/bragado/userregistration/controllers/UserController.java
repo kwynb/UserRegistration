@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -52,16 +51,44 @@ public class UserController {
         return new Response("User deleted.");
     }
 
-    @GetMapping(value = "/get")
+    @GetMapping(value = "/get/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getUser(@PathVariable(value="id") @Pattern(regexp = "^[0-9]*$") Long id)  {
+        User user = userService.getUser(id);
+        if (user == null) {
+            return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping(value = {"","/get"})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<User>> getUsers() {
         return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/get/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getUser(@PathVariable(value = "id") @Pattern(regexp="^[0-9]*$") Long id)  {
-        User user = userService.getUser(id);
+    @GetMapping(value = "/get/name")
+    public ResponseEntity<Object> getUserByName (@RequestParam(value = "fn") String fn,
+                                                 @RequestParam(value = "ln") String ln) {
+        User user = userService.getByName(fn,ln);
+        if (user == null) {
+            return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get/firstname")
+    public ResponseEntity<Object> getUserByFirstName (@RequestParam(value = "fn") String fn) {
+        List<User> user = userService.getByFirstName(fn);
+        if (user == null) {
+            return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get/lastname")
+    public ResponseEntity<Object> getUserByLastName (@RequestParam(value = "ln") String ln) {
+        List<User> user = userService.getByLastName(ln);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }

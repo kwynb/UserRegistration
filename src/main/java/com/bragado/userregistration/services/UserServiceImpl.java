@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmail(String email) {
-        User user = userRepository.findByEmail(email);
-        return user; }
+    public List<User> getByFirstName(String firstname) { return userRepository.findByFirstName(firstname); }
+
+    @Override
+    public List<User> getByLastName(String lastname) { return userRepository.findByLastName(lastname); }
+
+    @Override
+    public User getByName(String firstname, String lastname) { return userRepository.findByName(firstname,lastname); }
+
+    @Override
+    public User getByEmail(String email) { return userRepository.findByEmail(email); }
 }

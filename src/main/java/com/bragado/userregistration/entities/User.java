@@ -7,7 +7,7 @@ import javax.validation.constraints.Past;
 import java.util.Date;
 
 @Entity
-@Table(name="userdb")
+@Table(name="user")
 public class User {
 
     @Id
