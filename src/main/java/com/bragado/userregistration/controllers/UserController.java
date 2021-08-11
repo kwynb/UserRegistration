@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -61,6 +62,16 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getUser(@PathVariable(value = "id") @Pattern(regexp="^[0-9]*$") Long id)  {
         User user = userService.getUser(id);
+        if (user == null) {
+            return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/get/email")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getUserByEmail (@RequestParam(value = "email") String email) {
+        User user = userService.getByEmail(email);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
