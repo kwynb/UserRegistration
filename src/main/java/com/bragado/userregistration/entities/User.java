@@ -1,9 +1,12 @@
 package com.bragado.userregistration.entities;
 
+import com.bragado.userregistration.dto.UserDTO;
+import com.bragado.userregistration.dto.UserId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 
@@ -12,6 +15,7 @@ import java.util.Date;
 public class User {
 
     @Id
+    @UserId
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -23,7 +27,7 @@ public class User {
 
     @Column(name = "birthday")
     @Past(message = "Birthday should be valid.")
-    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING)
+    @JsonFormat(pattern="MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
     private Date birthDay;
 
     @Column(name = "email")
@@ -97,5 +101,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserDTO toUserDTO() {
+        return new UserDTO(firstName,lastName,birthDay,email);
     }
 }

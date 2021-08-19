@@ -1,5 +1,6 @@
 package com.bragado.userregistration.messaging;
 
+import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -14,26 +15,26 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 public class UserProducer {
     private static final String TOPIC = "userdata-topic";
 
-    private KafkaTemplate<String,User> kafkaTemplate;
+    private KafkaTemplate<String, Object> kafkaTemplate;
     private ObjectMapper objectMapper;
 
-    public UserProducer(KafkaTemplate<String,User> kafkaTemplate, ObjectMapper objectMapper) {
+    public UserProducer(KafkaTemplate<String,Object> kafkaTemplate, ObjectMapper objectMapper) {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
     }
 
-    public void sendUser(User user) {
+    public void sendUser(String key, Object user) {
 
-        ListenableFuture<SendResult<String,User>> listenableFuture = kafkaTemplate.send(TOPIC, user);
-        listenableFuture.addCallback(new ListenableFutureCallback<SendResult<String,User>>() {
+        ListenableFuture<SendResult<String,Object>> listenableFuture = kafkaTemplate.send(TOPIC, key, user);
+        listenableFuture.addCallback(new ListenableFutureCallback<SendResult<String,Object>>() {
             @Override
             public void onFailure(Throwable ex) {
-                handleFailure(TOPIC, user, ex);
+                handleFailure(key, user, ex);
             }
 
             @Override
-            public void onSuccess(SendResult<String,User> result) {
-                handleSuccess(TOPIC, user, result);
+            public void onSuccess(SendResult<String,Object> result) {
+                handleSuccess(key, user, result);
             }
         });
 
@@ -50,7 +51,7 @@ public class UserProducer {
 
     }
 
-    private void handleSuccess(String key, Object value, SendResult<String,User> result) {
+    private void handleSuccess(String key, Object value, SendResult<String,Object> result) {
         log.info("Message Sent SuccessFully for the key : {} and the value is {} , partition is {}", key, value, result.getRecordMetadata().partition());
     }
 

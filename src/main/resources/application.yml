@@ -24,11 +24,11 @@ server:
       enabled: false
 ---
 #Spring Kafka
-#spring:
-#  kafka:
-#    template:
-#      default-topic: userdata-topic
-#    producer:
-#      bootstrap-servers: localhost:9092
-#      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-#      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+spring:
+  kafka:
+    template:
+      default-topic: userdata-topic
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

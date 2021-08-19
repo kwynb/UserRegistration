@@ -2,6 +2,7 @@ package com.bragado.userregistration.controllers;
 
 import com.bragado.userregistration.dto.Response;
 import com.bragado.userregistration.dto.UserDTO;
+import com.bragado.userregistration.dto.UserId;
 import com.bragado.userregistration.entities.User;
 import com.bragado.userregistration.messaging.UserProducer;
 import com.bragado.userregistration.services.UserService;
@@ -11,8 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @Validated
@@ -27,15 +27,10 @@ public class UserController {
         this.userProducer = userProducer;
     }
 
-    @PostMapping(value = "/kafkatest")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody UserDTO userDTO) {
-        userProducer.sendUser(userDTO.toUser());
-    }
-
     @PostMapping(value = "/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createNewUser(@Valid @RequestBody UserDTO userDTO) {
+        userProducer.sendUser("new",userDTO);
         return new ResponseEntity<>(userService.createNewUser(userDTO), HttpStatus.CREATED);
     }
 
@@ -46,6 +41,7 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
+        userProducer.sendUser("update",user.toUserDTO());
         return new ResponseEntity<>(userService.updateUser(userDTO,id), HttpStatus.OK);
     }
 
@@ -57,23 +53,32 @@ public class UserController {
             return new Response("User Not Found.");
         }
         userService.deleteUser(id);
+        userProducer.sendUser("delete", user.toUserDTO());
         return new Response("User deleted.");
     }
 
     @GetMapping(value = "/get/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> getUser(@PathVariable(value="id") @Pattern(regexp = "^[0-9]*$") Long id)  {
+    public ResponseEntity<Object> getUser(@PathVariable(value="id") @UserId Long id)  {
         User user = userService.getUser(id);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
+        userProducer.sendUser("get", user.toUserDTO());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping(value = {"","/get"})
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<User>> getUsers() {
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+        List<User> users = userService.getUsers();
+        List<UserDTO> usersDTO = new ArrayList<>();
+        for (User user: users) {
+            UserDTO userDTO = user.toUserDTO();
+            usersDTO.add(userDTO);
+        }
+        userProducer.sendUser("all",usersDTO);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping(value = "/get/name")
