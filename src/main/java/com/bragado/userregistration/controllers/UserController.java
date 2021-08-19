@@ -3,6 +3,7 @@ package com.bragado.userregistration.controllers;
 import com.bragado.userregistration.dto.Response;
 import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.entities.User;
+import com.bragado.userregistration.messaging.UserProducer;
 import com.bragado.userregistration.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,17 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserProducer userProducer;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserProducer userProducer) {
         this.userService = userService;
+        this.userProducer = userProducer;
+    }
+
+    @PostMapping(value = "/kafkatest")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createUser(@RequestBody UserDTO userDTO) {
+        userProducer.sendUser(userDTO.toUser());
     }
 
     @PostMapping(value = "/save")

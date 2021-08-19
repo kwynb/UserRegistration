@@ -6,6 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.util.Date;
 
+
 @Entity
 @Table(name="user")
 public class User {
@@ -29,13 +30,33 @@ public class User {
     @Email(message = "Email should be valid.")
     private String email;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, Date birthDay, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
         this.email = email;
+    }
+
+    public User(Long id, String firstName, String lastName, Date birthDay, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDay = birthDay;
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDay=" + birthDay +
+                ", email='" + email + '\'' +
+                '}';
     }
 
     public Long getId() {
@@ -76,16 +97,5 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthDay=" + birthDay +
-                ", email='" + email + '\'' +
-                '}';
     }
 }
