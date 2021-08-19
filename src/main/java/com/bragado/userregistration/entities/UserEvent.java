@@ -1,6 +1,7 @@
 package com.bragado.userregistration.entities;
 
 
+import com.bragado.userregistration.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,8 +15,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Builder
 public class UserEvent {
-    private String eventId;
+    private String event;
 
     @NotNull
-    private User user;
+    private UserDTO userDTO;
 }

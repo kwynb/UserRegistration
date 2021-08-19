@@ -4,6 +4,7 @@ import com.bragado.userregistration.dto.Response;
 import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.dto.UserId;
 import com.bragado.userregistration.entities.User;
+import com.bragado.userregistration.entities.UserEvent;
 import com.bragado.userregistration.messaging.UserProducer;
 import com.bragado.userregistration.services.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,8 @@ public class UserController {
     @PostMapping(value = "/save")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createNewUser(@Valid @RequestBody UserDTO userDTO) {
-        userProducer.sendUser("new",userDTO);
+        UserEvent user = new UserEvent("new",userDTO);
+        userProducer.sendUser(user);
         return new ResponseEntity<>(userService.createNewUser(userDTO), HttpStatus.CREATED);
     }
 
@@ -41,8 +43,10 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
-        userProducer.sendUser("update",user.toUserDTO());
-        return new ResponseEntity<>(userService.updateUser(userDTO,id), HttpStatus.OK);
+        User updated = userService.updateUser(userDTO,id);
+        UserEvent userEvent = new UserEvent("update", updated.toUserDTO());
+        userProducer.sendUser(userEvent);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/delete")
@@ -53,7 +57,8 @@ public class UserController {
             return new Response("User Not Found.");
         }
         userService.deleteUser(id);
-        userProducer.sendUser("delete", user.toUserDTO());
+        UserEvent userEvent = new UserEvent("delete", user.toUserDTO());
+        userProducer.sendUser(userEvent);
         return new Response("User deleted.");
     }
 
@@ -64,7 +69,8 @@ public class UserController {
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
-        userProducer.sendUser("get", user.toUserDTO());
+        UserEvent userEvent = new UserEvent("get", user.toUserDTO());
+        userProducer.sendUser(userEvent);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -72,12 +78,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getUsers();
-        List<UserDTO> usersDTO = new ArrayList<>();
-        for (User user: users) {
-            UserDTO userDTO = user.toUserDTO();
-            usersDTO.add(userDTO);
-        }
-        userProducer.sendUser("all",usersDTO);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
