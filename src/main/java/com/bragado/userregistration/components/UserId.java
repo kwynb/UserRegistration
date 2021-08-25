@@ -1,4 +1,4 @@
-package com.bragado.userregistration.dto;
+package com.bragado.userregistration.components;
 
 import javax.validation.Constraint;
 

@@ -2,10 +2,6 @@ package com.bragado.userregistration.services;
 
 import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.entities.User;
-import com.bragado.userregistration.repositories.UserRepository;
-
-import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
 
 public interface UserService {
@@ -20,4 +16,6 @@ public interface UserService {
     List<User> getByLastName(String lastname);
     User getByName(String firstname, String lastname);
     User getByEmail(String email);
+
+    boolean verifyLogin(String username, String password);
 }

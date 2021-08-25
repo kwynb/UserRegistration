@@ -1,7 +1,10 @@
 package com.bragado.userregistration.services;
 
+import com.bragado.userregistration.dto.LoginDTO;
 import com.bragado.userregistration.dto.UserDTO;
+import com.bragado.userregistration.entities.Login;
 import com.bragado.userregistration.entities.User;
+import com.bragado.userregistration.repositories.LoginRepository;
 import com.bragado.userregistration.repositories.UserRepository;
 import com.bragado.userregistration.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +20,22 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
+    private LoginRepository loginRepository;
+
+    public UserServiceImpl(UserRepository userRepository, LoginRepository loginRepository) {
+        this.userRepository = userRepository;
+        this.loginRepository = loginRepository;
+    }
 
     @Override
     public User createNewUser(UserDTO userDTO) {
-        return userRepository.save(userDTO.toUser());
+        User user = userDTO.toUser();
+        String username = userDTO.getUsername();
+        String password = userDTO.getPassword();
+        LoginDTO login = new LoginDTO(username, password);
+        loginRepository.save(login.toLogin());
+        return userRepository.save(user);
     }
 
     @Override
@@ -35,11 +48,20 @@ public class UserServiceImpl implements UserService {
         updatedUser.setLastName(userDTO.getLastName());
         updatedUser.setBirthDay(userDTO.getBirthDay());
         updatedUser.setEmail(userDTO.getEmail());
+        updatedUser.setUsername(userDTO.getUsername());
+        updatedUser.setPassword(userDTO.getPassword());
+
+        String username = updatedUser.getUsername();
+        String password = updatedUser.getPassword();
+        LoginDTO login = new LoginDTO(username, password);
+        loginRepository.save(login.toLogin());
         return userRepository.save(updatedUser);
     }
 
     @Override
     public void deleteUser(Long id) {
+        User user = userRepository.findById(id).get();
+        loginRepository.delete(loginRepository.findByUsername(user.getUsername()));
         userRepository.deleteById(id);
     }
 
@@ -67,4 +89,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) { return userRepository.findByEmail(email); }
+
+    @Override
+    public boolean verifyLogin(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user == null ) {
+            return false;
+        }
+        if (!password.equals(user.getPassword())) {
+            return false;
+        }
+        return true;
+    }
 }

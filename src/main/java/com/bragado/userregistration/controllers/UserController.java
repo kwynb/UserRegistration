@@ -1,31 +1,35 @@
 package com.bragado.userregistration.controllers;
 
-import com.bragado.userregistration.dto.Response;
+import com.bragado.userregistration.components.Response;
+import com.bragado.userregistration.dto.LoginDTO;
 import com.bragado.userregistration.dto.UserDTO;
-import com.bragado.userregistration.dto.UserId;
+import com.bragado.userregistration.components.UserId;
+import com.bragado.userregistration.entities.Login;
 import com.bragado.userregistration.entities.User;
 import com.bragado.userregistration.entities.UserEvent;
 import com.bragado.userregistration.messaging.UserProducer;
-import com.bragado.userregistration.services.UserService;
+import com.bragado.userregistration.services.LoginServiceImpl;
+import com.bragado.userregistration.services.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.*;
 
 @RestController
 @Validated
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final UserProducer userProducer;
-
-    public UserController(UserService userService, UserProducer userProducer) {
-        this.userService = userService;
+    private final LoginServiceImpl loginService;
+    public UserController(UserServiceImpl userService, UserProducer userProducer, LoginServiceImpl loginService) {
         this.userProducer = userProducer;
+        this.userService = userService;
+        this.loginService = loginService;
     }
 
     @PostMapping(value = "/save")
@@ -65,13 +69,15 @@ public class UserController {
     @GetMapping(value = "/get/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getUser(@PathVariable(value="id") @UserId Long id)  {
-        User user = userService.getUser(id);
+    User user = userService.getUser(id);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
         }
+
         UserEvent userEvent = new UserEvent("get", user.toUserDTO());
         userProducer.sendUser(userEvent);
         return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 
     @GetMapping(value = {"","/get"})
@@ -79,6 +85,26 @@ public class UserController {
     public ResponseEntity<List<User>> getUsers() {
         List<User> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/login")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+        Login login = loginService.login(loginDTO);
+        if (login == null) {
+            return new ResponseEntity<>(new Response("Invalid user details."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(login, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/logout")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> logoutUser(@Valid @RequestBody LoginDTO loginDTO) {
+        Login logout = loginService.logout(loginDTO);
+        if (logout == null) {
+            return new ResponseEntity<>(new Response("Invalid user details."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(logout, HttpStatus.OK);
     }
 
     @GetMapping(value = "/get/name")

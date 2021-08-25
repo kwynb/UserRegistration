@@ -1,16 +1,12 @@
 package com.bragado.userregistration.repositories;
 
 import com.bragado.userregistration.entities.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -28,5 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value="SELECT * FROM user WHERE email = :email", nativeQuery = true)
     User findByEmail(@Param("email") @Email String email);
 
+    @Query(value="SELECT * FROM user WHERE username = :username", nativeQuery = true)
+    User findByUsername(@Param("username") String username);
 
 }
