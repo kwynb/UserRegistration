@@ -48,13 +48,14 @@ public class UserServiceImpl implements UserService {
         updatedUser.setLastName(userDTO.getLastName());
         updatedUser.setBirthDay(userDTO.getBirthDay());
         updatedUser.setEmail(userDTO.getEmail());
+        if (updatedUser.getUsername() != userDTO.getUsername()) {
+            Login login = loginRepository.findByUsername(updatedUser.getUsername());
+            Login myLog = loginRepository.findById(login.getId()).get();
+            myLog.setUsername(userDTO.getUsername());
+            myLog.setPassword(userDTO.getPassword());
+        }
         updatedUser.setUsername(userDTO.getUsername());
         updatedUser.setPassword(userDTO.getPassword());
-
-        String username = updatedUser.getUsername();
-        String password = updatedUser.getPassword();
-        LoginDTO login = new LoginDTO(username, password);
-        loginRepository.save(login.toLogin());
         return userRepository.save(updatedUser);
     }
 
@@ -89,6 +90,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByEmail(String email) { return userRepository.findByEmail(email); }
+
+    @Override
+    public User getByUsername(String username) { return userRepository.findByUsername(username); }
 
     @Override
     public boolean verifyLogin(String username, String password) {

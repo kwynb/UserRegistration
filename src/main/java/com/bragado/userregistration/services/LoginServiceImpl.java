@@ -38,9 +38,6 @@ public class LoginServiceImpl implements LoginService {
     public Login logout(LoginDTO loginDTO) {
         boolean isValid = userService.verifyLogin(loginDTO.getUsername(), loginDTO.getPassword());
         Login loggedIn = loginRepository.findByUsername(loginDTO.getUsername());
-        if (isValid == false) {
-            return null;
-        }
         if (loggedIn.getLoggedIn() == false) {
             return loggedIn;
         }

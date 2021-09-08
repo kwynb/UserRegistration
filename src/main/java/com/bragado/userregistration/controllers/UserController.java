@@ -145,4 +145,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get/username")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Object> getUserByUsername (@RequestParam(value = "username") String username) {
+        User user = userService.getByUsername(username);
+        if (user == null) {
+            return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }
