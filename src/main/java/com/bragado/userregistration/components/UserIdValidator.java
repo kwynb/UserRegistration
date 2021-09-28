@@ -12,10 +12,7 @@ public class UserIdValidator implements ConstraintValidator<UserId, Long> {
                 Pattern.compile("^[0-9]*$");
         Matcher matcher = pattern.matcher(id.toString());
         try {
-            if (!matcher.matches()) {
-                return false;
-            }
-            return true;
+            return matcher.matches();
         } catch (Exception e) {
             return false;
         }

@@ -1,10 +1,6 @@
 package com.bragado.userregistration.dto;
 
 import com.bragado.userregistration.entities.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.Column;
-import javax.validation.constraints.Past;
 import java.util.Date;
 
 public class UserDTO {

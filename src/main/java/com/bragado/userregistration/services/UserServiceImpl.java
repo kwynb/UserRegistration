@@ -2,15 +2,20 @@ package com.bragado.userregistration.services;
 
 import com.bragado.userregistration.dto.LoginDTO;
 import com.bragado.userregistration.dto.UserDTO;
+import com.bragado.userregistration.entities.AuthLogin;
 import com.bragado.userregistration.entities.Login;
 import com.bragado.userregistration.entities.User;
 import com.bragado.userregistration.repositories.LoginRepository;
 import com.bragado.userregistration.repositories.UserRepository;
 import com.bragado.userregistration.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import javax.transaction.Transactional;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -105,4 +110,5 @@ public class UserServiceImpl implements UserService {
         }
         return true;
     }
+
 }

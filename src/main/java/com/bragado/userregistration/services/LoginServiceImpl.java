@@ -31,6 +31,7 @@ public class LoginServiceImpl implements LoginService {
         login.setUsername(loginDTO.getUsername());
         login.setPassword(loginDTO.getPassword());
         login.setLoggedIn(true);
+
         return loginRepository.save(login);
     }
 

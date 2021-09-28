@@ -173,4 +173,8 @@ public class User {
     public UserDTO toUserDTO() {
         return new UserDTO(firstName, lastName, birthDay, email, username, password);
     }
+
+    public AuthLogin toAuthLogin() {
+        return new AuthLogin(id, username, password, email);
+    }
 }
