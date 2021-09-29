@@ -14,15 +14,16 @@ import java.util.Date;
 @Component
 public class JWTUtility {
 
-    private static final Logger log = LoggerFactory.getLogger(JWTUtility.class);
     private static final String AUTH_SECRET = "projectPassword-0314";
     private static final Integer EXP_MS = 300000;
     private static final Date DATE_NOW = new Date();
     private static final Date EXP_DATE = new Date(new Date().getTime() + EXP_MS);
 
+    private static final Logger log = LoggerFactory.getLogger(JWTUtility.class);
+
     public String generateJWTToken(Authentication auth) {
 
-        AuthLogin user = (AuthLogin) auth.getPrincipal();
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();
 
         return Jwts.builder()
                 .setSubject(user.getUsername())

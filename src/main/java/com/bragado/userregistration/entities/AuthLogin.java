@@ -4,6 +4,7 @@ import com.bragado.userregistration.components.AttributeEncryptor;
 import com.bragado.userregistration.components.UserId;
 import com.bragado.userregistration.dto.LoginDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Entity
 @Table(name="auth_login")
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AuthLogin {
 
     @Id

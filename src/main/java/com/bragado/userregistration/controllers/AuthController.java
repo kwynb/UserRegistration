@@ -3,10 +3,13 @@ package com.bragado.userregistration.controllers;
 
 import com.bragado.userregistration.dto.LoginDTO;
 import com.bragado.userregistration.entities.AuthLogin;
+import com.bragado.userregistration.entities.Login;
 import com.bragado.userregistration.repositories.AuthRepository;
 import com.bragado.userregistration.repositories.LoginRepository;
 import com.bragado.userregistration.repositories.UserRepository;
+import com.bragado.userregistration.security.JWTResponse;
 import com.bragado.userregistration.security.JWTUtility;
+import com.bragado.userregistration.security.UserDetailsImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,13 +51,13 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String JWT = jwtUtility.generateJWTToken(authentication);
 
-        AuthLogin user = (AuthLogin) authentication.getPrincipal();
-        AuthLogin userInstance = new AuthLogin(user.getId(),
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        JWTResponse userInstance = new JWTResponse(
+                JWT,
+                user.getId(),
                 user.getUsername(),
-                user.getPassword(),
                 user.getEmail(),
-                JWT);
-        authRepository.save(userInstance);
+                user.getPassword());
         return ResponseEntity.ok(userInstance);
     }
 
