@@ -1,18 +1,19 @@
 package com.bragado.userregistration.entities;
 
 import com.bragado.userregistration.components.AttributeEncryptor;
-import com.bragado.userregistration.dto.LoginDTO;
 import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.components.UserId;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
-import java.util.Date;
+
 
 
 @Entity
@@ -47,6 +48,9 @@ public class User {
     @Convert(converter = AttributeEncryptor.class)
     private String password;
 
+    @Column(name = "role")
+    private String role;
+
     @CreatedDate
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -69,9 +73,10 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.role = "USER";
     }
 
-    public User(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, Date createdAt, Date lastModified) {
+    public User(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, String role, Date createdAt, Date lastModified) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -79,6 +84,7 @@ public class User {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.role = role;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
     }
@@ -152,6 +158,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Date getCreatedAt() {

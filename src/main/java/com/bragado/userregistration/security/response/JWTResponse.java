@@ -1,4 +1,8 @@
-package com.bragado.userregistration.security;
+package com.bragado.userregistration.security.response;
+
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
 
 public class JWTResponse {
     private String accessToken;
@@ -7,13 +11,15 @@ public class JWTResponse {
     private String username;
     private String email;
     private String password;
+    private Collection<? extends GrantedAuthority> authority;
 
-    public JWTResponse(String accessToken, Long id, String username, String email, String password) {
+    public JWTResponse(String accessToken, Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authority) {
         this.accessToken = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.authority = authority;
     }
 
     public String getAccessToken() {
@@ -54,5 +60,13 @@ public class JWTResponse {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Collection<? extends GrantedAuthority> authority) {
+        this.authority = authority;
     }
 }

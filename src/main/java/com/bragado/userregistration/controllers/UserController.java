@@ -87,15 +87,15 @@ public class UserController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/login")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        Login login = loginService.login(loginDTO);
-        if (login == null) {
-            return new ResponseEntity<>(new Response("Invalid user details."), HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(login, HttpStatus.OK);
-    }
+//    @PostMapping(value = "/login")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Object> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+//        Login login = loginService.login(loginDTO);
+//        if (login == null) {
+//            return new ResponseEntity<>(new Response("Invalid user details."), HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(login, HttpStatus.OK);
+//    }
 
     @PostMapping(value = "/logout")
     @ResponseStatus(HttpStatus.OK)

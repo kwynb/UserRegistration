@@ -25,7 +25,7 @@ public class LoginDTO {
     public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
-        this.isLoggedIn = false;
+//        this.isLoggedIn = false;
     }
 
     public LoginDTO(String username, String password, Boolean isLoggedIn) {

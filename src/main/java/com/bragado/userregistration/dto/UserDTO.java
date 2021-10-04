@@ -11,6 +11,7 @@ public class UserDTO {
     private String email;
     private String username;
     private String password;
+    private String role;
     private Date createdAt;
     private Date lastModified;
 
@@ -23,6 +24,7 @@ public class UserDTO {
         this.email = email;
         this.username = username;
         this.password = password;
+        this.role = "USER";
     }
 
     public UserDTO(String firstName, String lastName, Date birthDay, String email, String username, String password, Date createdAt, Date lastModified) {
@@ -75,6 +77,14 @@ public class UserDTO {
     public String getPassword() { return password; }
 
     public void setPassword(String password) { this.password = password; }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     public Date getCreatedAt() { return createdAt; }
 

@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private LoginRepository loginRepository;
-
+    private static final String USER = "USER";
     public UserServiceImpl(UserRepository userRepository, LoginRepository loginRepository) {
         this.userRepository = userRepository;
         this.loginRepository = loginRepository;
@@ -53,6 +53,7 @@ public class UserServiceImpl implements UserService {
         updatedUser.setLastName(userDTO.getLastName());
         updatedUser.setBirthDay(userDTO.getBirthDay());
         updatedUser.setEmail(userDTO.getEmail());
+        updatedUser.setRole(userDTO.getRole());
         if (updatedUser.getUsername() != userDTO.getUsername()) {
             Login login = loginRepository.findByUsername(updatedUser.getUsername());
             Login myLog = loginRepository.findById(login.getId()).get();
