@@ -1,25 +1,23 @@
 package com.bragado.userregistration.entities;
 
 import com.bragado.userregistration.components.AttributeEncryptor;
-import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.components.UserId;
-
+import com.bragado.userregistration.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
-
+import java.util.Date;
 
 
 @Entity
-@Table(name="user")
+@Table(name="usertest")
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class UserTest {
 
     @Id
     @UserId
@@ -45,7 +43,6 @@ public class User {
     private String username;
 
     @Column(name = "password")
-    @Convert(converter = AttributeEncryptor.class)
     private String password;
 
     @Column(name = "role")
@@ -63,10 +60,10 @@ public class User {
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
     private Date lastModified;
 
-    public User() {
+    public UserTest() {
     }
 
-    public User(String firstName, String lastName, Date birthDay, String email, String username, String password) {
+    public UserTest(String firstName, String lastName, Date birthDay, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDay = birthDay;
@@ -76,7 +73,7 @@ public class User {
         this.role = "USER";
     }
 
-    public User(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, String role, Date createdAt, Date lastModified) {
+    public UserTest(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, String role, Date createdAt, Date lastModified) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

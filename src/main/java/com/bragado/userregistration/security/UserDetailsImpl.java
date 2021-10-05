@@ -1,9 +1,7 @@
 package com.bragado.userregistration.security;
 
 import com.bragado.userregistration.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
+import com.bragado.userregistration.entities.UserTest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,30 +10,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetailsImpl implements UserDetails {
 
-    private static final String USER = "USER";
-
-    private final Long      id;
-    private final String    username;
-    private final String    email;
-    private final String    password;
-
-    @JsonIgnore
-    private User user;
+    private  Long    id;
+    private  String  username;
+    private  String  email;
+    private  String  password;
 
     private Collection<? extends GrantedAuthority> authority;
-
-    public UserDetailsImpl(Long id, String username, String email, String password) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authority) {
+    public UserDetailsImpl(Long id, String username, String email, String password,
+                           Collection<? extends GrantedAuthority> authority) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -43,17 +27,21 @@ public class UserDetailsImpl implements UserDetails {
         this.authority = authority;
     }
 
-    public static UserDetailsImpl buildUser(User user) {
-        List<GrantedAuthority> authority = new ArrayList<>();
-        authority.add(new SimpleGrantedAuthority("USER"));
 
+    public static UserDetailsImpl build(UserTest user) {
+        List<GrantedAuthority> auth= new ArrayList<>();
+        auth.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authority
-        );
+                auth);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authority;
     }
 
     public Long getId() {
@@ -95,7 +83,13 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authority;
+    public String toString() {
+        return "UserDetailsImpl{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", authority=" + authority +
+                '}';
     }
 }
