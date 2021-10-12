@@ -2,6 +2,7 @@ package com.bragado.userregistration.messaging;
 
 import com.bragado.userregistration.dto.UserDTO;
 import com.bragado.userregistration.entities.UserEvent;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -13,13 +14,11 @@ import java.util.List;
 
 @Component
 @Slf4j
+@AllArgsConstructor
 public class UserProducer {
     private static final String TOPIC = "userdata-topic";
 
     private final KafkaTemplate<String, UserEvent> kafkaTemplate;
-    public UserProducer(KafkaTemplate<String, UserEvent> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
 
     public void sendUser(UserEvent userEvent) {
 
@@ -47,7 +46,7 @@ public class UserProducer {
         }
     }
     private void handleSuccess(UserEvent value, SendResult<String,UserEvent> result) {
-        log.info("Message Sent SuccessFully for the key : {} and the value is {} , partition is {}", value, result.getRecordMetadata().partition());
+        log.info("Message Sent SuccessFully for the value is {} , partition is {}", value, result.getRecordMetadata().partition());
     }
 
 }

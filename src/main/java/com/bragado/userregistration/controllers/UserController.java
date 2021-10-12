@@ -10,6 +10,7 @@ import com.bragado.userregistration.entities.UserEvent;
 import com.bragado.userregistration.messaging.UserProducer;
 import com.bragado.userregistration.services.LoginServiceImpl;
 import com.bragado.userregistration.services.UserServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,16 +22,13 @@ import java.util.*;
 @Validated
 @RequestMapping("/users")
 @CrossOrigin
+@AllArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userService;
-    private final UserProducer userProducer;
-    private final LoginServiceImpl loginService;
-    public UserController(UserServiceImpl userService, UserProducer userProducer, LoginServiceImpl loginService) {
-        this.userProducer = userProducer;
-        this.userService = userService;
-        this.loginService = loginService;
-    }
+    private final UserServiceImpl   userService;
+    private final UserProducer      userProducer;
+    private final LoginServiceImpl  loginService;
+
 
     @PostMapping(value = "/save")
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,7 +40,8 @@ public class UserController {
 
     @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserDTO userDTO, @Valid @RequestParam(value="id") Long id) {
+    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserDTO userDTO,
+                                             @Valid @RequestParam(value="id") Long id) {
         User user = userService.getUser(id);
         if (user == null) {
             return new ResponseEntity<>(new Response("User Not Found."), HttpStatus.NOT_FOUND);

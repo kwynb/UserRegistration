@@ -64,26 +64,26 @@ public class UserTest {
     }
 
     public UserTest(String firstName, String lastName, Date birthDay, String email, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.role = "USER";
+        this.firstName  = firstName;
+        this.lastName   = lastName;
+        this.birthDay   = birthDay;
+        this.email      = email;
+        this.username   = username;
+        this.password   = password;
+        this.role       = "USER";
     }
 
     public UserTest(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, String role, Date createdAt, Date lastModified) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
+        this.id             = id;
+        this.firstName      = firstName;
+        this.lastName       = lastName;
+        this.birthDay       = birthDay;
+        this.email          = email;
+        this.username       = username;
+        this.password       = password;
+        this.role           = role;
+        this.createdAt      = createdAt;
+        this.lastModified   = lastModified;
     }
 
     @Override
@@ -185,7 +185,4 @@ public class UserTest {
         return new UserDTO(firstName, lastName, birthDay, email, username, password);
     }
 
-//    public AuthLogin toAuthLogin() {
-//        return new AuthLogin(id, username, password, email);
-//    }
 }

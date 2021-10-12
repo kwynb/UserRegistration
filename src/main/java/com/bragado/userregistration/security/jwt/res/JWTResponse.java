@@ -1,4 +1,4 @@
-package com.bragado.userregistration.security.jwt;
+package com.bragado.userregistration.security.jwt.res;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;

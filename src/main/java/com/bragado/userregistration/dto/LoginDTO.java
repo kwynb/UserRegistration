@@ -1,45 +1,37 @@
 package com.bragado.userregistration.dto;
 
 
-import com.bragado.userregistration.components.AttributeEncryptor;
-import com.bragado.userregistration.components.UserId;
 import com.bragado.userregistration.entities.Login;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import javax.persistence.*;
 import java.util.Date;
 
 public class LoginDTO {
 
-    private String username;
-    private String password;
+    private String  username;
+    private String  password;
     private Boolean isLoggedIn;
-    private Date createdAt;
-    private Date lastLogin;
+    private Date    createdAt;
+    private Date    lastLogin;
 
     public LoginDTO() {}
 
     public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
-//        this.isLoggedIn = false;
+        this.isLoggedIn = false;
     }
 
     public LoginDTO(String username, String password, Boolean isLoggedIn) {
-        this.username = username;
-        this.password = password;
+        this.username   = username;
+        this.password   = password;
         this.isLoggedIn = isLoggedIn;
     }
 
     public LoginDTO(String username, String password, Boolean isLoggedIn, Date createdAt, Date lastLogin) {
-        this.username = username;
-        this.password = password;
+        this.username   = username;
+        this.password   = password;
         this.isLoggedIn = isLoggedIn;
-        this.createdAt = createdAt;
-        this.lastLogin = lastLogin;
+        this.createdAt  = createdAt;
+        this.lastLogin  = lastLogin;
     }
 
     public String getUsername() {

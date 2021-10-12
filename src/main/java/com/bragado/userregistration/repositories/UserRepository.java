@@ -12,19 +12,26 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value="SELECT * FROM user WHERE firstname = :firstname", nativeQuery = true)
+    String SELECT_BY_FIRSTNAME  = "SELECT * FROM user WHERE firstname = :firstname";
+    String SELECT_BY_LASTNAME   = "SELECT * FROM user WHERE lastname = :lastname";
+    String SELECT_BY_NAME       = "SELECT * FROM user WHERE firstname = :firstname AND lastname = :lastname";
+    String SELECT_BY_EMAIL      = "SELECT * FROM user WHERE email = :email";
+    String SELECT_BY_USERNAME   = "SELECT * FROM user WHERE username = :username";
+
+    @Query(value=SELECT_BY_FIRSTNAME, nativeQuery = true)
     List<User> findByFirstName(@Param("firstname") String firstname);
 
-    @Query(value="SELECT * FROM user WHERE lastname = :lastname", nativeQuery = true)
+    @Query(value=SELECT_BY_LASTNAME, nativeQuery = true)
     List<User> findByLastName(@Param("lastname") String lastname);
 
-    @Query(value="SELECT * FROM user WHERE firstname = :firstname AND lastname = :lastname", nativeQuery = true)
-    User findByName(@Param("firstname") String firstname, @Param("lastname") String lastname);
+    @Query(value=SELECT_BY_NAME, nativeQuery = true)
+    User findByName(@Param("firstname") String firstname,
+                    @Param("lastname") String lastname);
 
-    @Query(value="SELECT * FROM user WHERE email = :email", nativeQuery = true)
+    @Query(value=SELECT_BY_EMAIL, nativeQuery = true)
     User findByEmail(@Param("email") @Email String email);
 
-    @Query(value="SELECT * FROM user WHERE username = :username", nativeQuery = true)
+    @Query(value=SELECT_BY_USERNAME, nativeQuery = true)
     User findByUsername(@Param("username") String username);
 
 }

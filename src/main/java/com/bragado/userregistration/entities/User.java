@@ -24,69 +24,68 @@ public class User {
     @Id
     @UserId
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long    id;
 
     @Column(name = "firstname")
-    private String firstName;
+    private String  firstName;
 
     @Column(name = "lastname")
-    private String lastName;
+    private String  lastName;
 
     @Column(name = "birthday")
     @Past(message = "Birthday should be valid.")
     @JsonFormat(pattern = "MM/dd/yyyy", shape = JsonFormat.Shape.STRING, timezone = "Asia/Manila")
-    private Date birthDay;
+    private Date    birthDay;
 
     @Column(name = "email")
     @Email(message = "Email should be valid.")
-    private String email;
+    private String  email;
 
     @Column(name = "username")
-    private String username;
+    private String  username;
 
     @Column(name = "password")
     @Convert(converter = AttributeEncryptor.class)
-    private String password;
+    private String  password;
 
     @Column(name = "role")
-    private String role;
+    private String  role;
 
     @CreatedDate
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
-    private Date createdAt;
+    private Date    createdAt;
 
     @LastModifiedDate
     @Column(name = "last_modified")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
-    private Date lastModified;
+    private Date    lastModified;
 
-    public User() {
-    }
+    public User() {}
 
     public User(String firstName, String lastName, Date birthDay, String email, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.role = "USER";
+        this.firstName  = firstName;
+        this.lastName   = lastName;
+        this.birthDay   = birthDay;
+        this.email      = email;
+        this.username   = username;
+        this.password   = password;
+        this.role       = "USER";
     }
 
     public User(Long id, String firstName, String lastName, Date birthDay, String email, String username, String password, String role, Date createdAt, Date lastModified) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDay = birthDay;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
+        this.id             = id;
+        this.firstName      = firstName;
+        this.lastName       = lastName;
+        this.birthDay       = birthDay;
+        this.email          = email;
+        this.username       = username;
+        this.password       = password;
+        this.role           = role;
+        this.createdAt      = createdAt;
+        this.lastModified   = lastModified;
     }
 
     @Override
@@ -188,7 +187,5 @@ public class User {
         return new UserDTO(firstName, lastName, birthDay, email, username, password);
     }
 
-//    public AuthLogin toAuthLogin() {
-//        return new AuthLogin(id, username, password, email);
-//    }
+
 }

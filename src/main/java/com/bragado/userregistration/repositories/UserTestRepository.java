@@ -12,20 +12,10 @@ import java.util.List;
 
 @Repository
 public interface UserTestRepository extends JpaRepository<UserTest, Long> {
-//
-//    @Query(value="SELECT * FROM user WHERE firstname = :firstname", nativeQuery = true)
-//    List<User> findByFirstName(@Param("firstname") String firstname);
-//
-//    @Query(value="SELECT * FROM user WHERE lastname = :lastname", nativeQuery = true)
-//    List<User> findByLastName(@Param("lastname") String lastname);
-//
-//    @Query(value="SELECT * FROM user WHERE firstname = :firstname AND lastname = :lastname", nativeQuery = true)
-//    User findByName(@Param("firstname") String firstname, @Param("lastname") String lastname);
-//
-//    @Query(value="SELECT * FROM user WHERE email = :email", nativeQuery = true)
-//    User findByEmail(@Param("email") @Email String email);
 
-    @Query(value="SELECT * FROM usertest WHERE username = :username", nativeQuery = true)
+    String SELECT_BY_USERNAME = "SELECT * FROM usertest WHERE username = :username";
+
+    @Query(value=SELECT_BY_USERNAME, nativeQuery = true)
     UserTest findByUsername(@Param("username") String username);
 
 }

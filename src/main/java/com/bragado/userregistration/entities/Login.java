@@ -21,14 +21,14 @@ public class Login {
     @Id
     @UserId
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long    id;
 
     @Column(name = "username")
-    private String username;
+    private String  username;
 
     @Column(name = "password")
     @Convert(converter = AttributeEncryptor.class)
-    private String password;
+    private String  password;
 
     @Column(name = "is_logged_in")
     private Boolean isLoggedIn;
@@ -37,35 +37,35 @@ public class Login {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
-    private Date createdAt;
+    private Date    createdAt;
 
     @LastModifiedDate
     @Column(name = "last_modified")
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "MM/dd/yyyy HH:mm:ss", timezone = "Asia/Manila")
-    private Date lastLogin;
+    private Date    lastLogin;
 
     public Login() {}
 
     public Login(String username, String password) {
-        this.username = username;
-        this.password = password;
+        this.username   = username;
+        this.password   = password;
         this.isLoggedIn = false;
     }
 
     public Login(String username, String password, Boolean isLoggedIn) {
-        this.username = username;
-        this.password = password;
+        this.username   = username;
+        this.password   = password;
         this.isLoggedIn = isLoggedIn;
     }
 
     public Login(Long id, String username, String password, Boolean isLoggedIn, Date createdAt, Date lastLogin) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+        this.id         = id;
+        this.username   = username;
+        this.password   = password;
         this.isLoggedIn = isLoggedIn;
-        this.createdAt = createdAt;
-        this.lastLogin = lastLogin;
+        this.createdAt  = createdAt;
+        this.lastLogin  = lastLogin;
     }
 
     public Long getId() {
